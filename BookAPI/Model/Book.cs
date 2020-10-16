@@ -2,7 +2,7 @@ using System;
 
 namespace BookAPI
 {
-    public class WeatherForecast
+    public class Book
     {
         public DateTime Date { get; set; }
 
