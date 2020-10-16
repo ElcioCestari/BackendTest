@@ -42,7 +42,9 @@ namespace BookAPI.Controllers
         }
 
 
-
+        /**
+         * return - List contendo todos os books
+         */
         private List<Book> ReadBooks()
         {
             String txt = System.IO.File.ReadAllText(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"\Data\books.JSON");
@@ -50,6 +52,7 @@ namespace BookAPI.Controllers
             List<Book> listBook = null;
             try
             {
+                Console.WriteLine(txt);
                 listBook = JsonSerializer.Deserialize<List<Book>>(txt);
             }
             catch (Exception e)
