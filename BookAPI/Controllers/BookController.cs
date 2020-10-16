@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,14 +27,37 @@ namespace BookAPI.Controllers
         [HttpGet]
         public IEnumerable<Book> Get()
         {
+            /*
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new Book
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                id = 1,
+                name = "meu livro favorito",
+                price = 56.25
             })
             .ToArray();
+        */
+            return this.ReadBooks();
+        
+        }
+
+
+
+        private List<Book> ReadBooks()
+        {
+            String txt = System.IO.File.ReadAllText(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"\Data\books.JSON");
+
+            List<Book> listBook = null;
+            try
+            {
+                listBook = JsonSerializer.Deserialize<List<Book>>(txt);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return listBook;
         }
     }
 }

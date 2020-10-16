@@ -17,3 +17,4 @@ C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcorea
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.dll
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.pdb
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.genruntimeconfig.cache
+C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\bin\Debug\netcoreapp3.1\Data\books.json
