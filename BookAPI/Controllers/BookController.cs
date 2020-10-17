@@ -41,6 +41,23 @@ namespace BookAPI.Controllers
         
         }
 
+        /**
+         * Busca um book pelo id
+         * caso encontre retorna um JSON contento as informações desse book
+         * caso nao encontre retorna null
+         */
+        [HttpGet("{id}")]
+        public JsonResult GetBook(int id)
+        {
+            List<Book> books = ReadBooks();
+
+            foreach( var list in books)
+            {
+                if (list.id == id) return new JsonResult(list);
+            }
+            return null;
+        }
+
 
         /**
          * return - List contendo todos os books
