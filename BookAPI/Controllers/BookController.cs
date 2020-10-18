@@ -12,10 +12,15 @@ namespace BookAPI.Controllers
     [Route("[controller]")]
     public class BookController : ControllerBase
     {
+        /* 
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
+
+        */
+
+
 
         private readonly ILogger<BookController> _logger;
 
@@ -27,26 +32,40 @@ namespace BookAPI.Controllers
 
         /**
          * Busca todos os livros
+         * 
+         * sort - um parametro que indica se a lista de livros devera ser ordenada ou nao
          */
         [HttpGet]
-        public IEnumerable<Book> Get()
+        public IEnumerable<Book> Get(bool sort)
         {
-            /*
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new Book
-            {
-                id = 1,
-                name = "meu livro favorito",
-                price = 56.25
-            })
-            .ToArray();
-        */
-            return this.ReadBooks();
+            List<Book> list = new List<Book>();
+
+            try {
+                list = this.ReadBooks();
+            } catch (Exception e) {
+                return null;
+            }
+            
+            
+            if (sort) return sortList(list); //lista ordenada 
+            else return list;
         
         }
 
         /**
+         * //devolve a lista ordenada pelo price
+         */
+        private IEnumerable<Book> sortList(List<Book> list)
+        {
+            return list.OrderBy(book => book.price).ToList(); 
+        }
+
+        /**
          * Busca um book pelo id, pelo nome do autor ou pelo nomme do livro.
+         * A ordem de busca seguira essa sequencia (id, autor, livro) caso 
+         * seja encontrada na 1 busca (id por exemplo) ira retornar o book,
+         * caso não encontre seguira para o proximo até encontrar (ou não).
+         * 
          * caso encontre retorna um JSON contento as informações desse book
          * caso nao encontre retorna uma string dizendo que não encontrou.
          */
@@ -125,6 +144,7 @@ namespace BookAPI.Controllers
         }
 
         /**
+         * Le todos os books salvos no diretorio Data salvo com o nomme books.JSON.
          * return - List contendo todos os books
          */
         private List<Book> ReadBooks()
@@ -134,14 +154,14 @@ namespace BookAPI.Controllers
             List<Book> listBook = null;
             try
             {
-                Console.WriteLine(txt);
                 listBook = JsonSerializer.Deserialize<List<Book>>(txt);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                throw new Exception(e.Message);
             }
-
+            
             return listBook;
         }
     }
