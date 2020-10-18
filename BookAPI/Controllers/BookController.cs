@@ -24,6 +24,10 @@ namespace BookAPI.Controllers
             _logger = logger;
         }
 
+
+        /**
+         * Busca todos os livros
+         */
         [HttpGet]
         public IEnumerable<Book> Get()
         {
@@ -42,22 +46,83 @@ namespace BookAPI.Controllers
         }
 
         /**
-         * Busca um book pelo id
+         * Busca um book pelo id, pelo nome do autor ou pelo nomme do livro.
          * caso encontre retorna um JSON contento as informações desse book
-         * caso nao encontre retorna null
+         * caso nao encontre retorna uma string dizendo que não encontrou.
          */
-        [HttpGet("{id}")]
-        public JsonResult GetBook(int id)
+        [HttpGet("{book}")]
+        public JsonResult GetBook(int id, String authName, String bookName)
+        {
+            Book book = null;
+            if (id != null )
+            {
+                book = searchById(id);
+                if (book != null) return new JsonResult(book);
+
+            } if ( authName != null && authName != "")
+            {
+                book = searchByAuthName(authName);
+                if (book != null) return new JsonResult(book);
+
+            } if (bookName != null && bookName != "")
+            {
+                book = searchByBookName(bookName);
+                if (book != null) return new JsonResult(book);
+            }
+
+            return new JsonResult(
+                "nada econtrado com os parametros id: " + id 
+                + " authName: " + authName 
+                + " bookName: " + bookName);
+        }
+
+        /**
+         *Busca um livro pelo nome do livro.
+         *caso não encontre retorna null
+         */
+        private Book searchByBookName(string bookName)
         {
             List<Book> books = ReadBooks();
 
-            foreach( var list in books)
+            foreach (var list in books)
             {
-                if (list.id == id) return new JsonResult(list);
+                if (list.name == bookName) return list;
             }
             return null;
         }
 
+
+        /**
+         * Busca um livro pelo nome do autor
+         * caso não encontre retorna null
+         */
+        private Book searchByAuthName(string authName)
+        {
+            List<Book> books = ReadBooks();
+
+            foreach (var list in books)
+            {
+                if (list.specifications.Author == authName) return list;
+            }
+            return null;
+        }
+
+
+        /**
+         * Busca um livro pelo id do livro
+         * caso não encontre retorna null
+         */
+        private Book searchById(int id)
+        {
+
+            List<Book> books = ReadBooks();
+
+            foreach (var list in books)
+            {
+                if (list.id == id) return list;
+            }
+            return null;
+        }
 
         /**
          * return - List contendo todos os books
