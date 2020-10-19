@@ -19,7 +19,6 @@ namespace BookAPI.Controllers
             _logger = logger;
         }
 
-
         /**
          * Busca todos os livros
          * 
@@ -36,14 +35,35 @@ namespace BookAPI.Controllers
                 return null;
             }
             
-            
-            if (sort) return sortList(list); //lista ordenada 
-            else return list;
-        
+            return sort ? sortList(list) : list; 
+        }
+
+
+        /**
+         * localiza um book pelo id e Devolve um json com dados basicos desse book e com o frete calculado.
+         * 
+         * int id - o id do book.
+         */
+        [Route("/book/frete")]
+        public JsonResult Get(int id)
+        {
+            Book book = searchById(id);
+
+            if (book == null) return null;
+
+            //valor do book acrescido do frete
+            double priceWithShipping = calculateShipping(book.price);
+
+            String json = "{ " +
+                book.simpleJsonBook() + ", " +
+                "{frete : " + priceWithShipping + " } " +
+                "}";
+
+            return new JsonResult(json);
         }
 
         /**
-         * //devolve a lista ordenada pelo price
+         * devolve a lista ordenada pelo price
          */
         private IEnumerable<Book> sortList(List<Book> list)
         {
@@ -58,36 +78,58 @@ namespace BookAPI.Controllers
          * 
          * caso encontre retorna um JSON contento as informações desse book
          * caso nao encontre retorna uma string dizendo que não encontrou.
+         * 
+         * int id - busca um livro por id
+         * String authName - busca livros pelo nome do autor
+         * String bookName - busca livros pelo nome do livro
+         * bool sort - se true retorna a busca ordenada conforme o metodo sortList (ordena pelo preço)
          */
         [HttpGet("{book}")]
-        public JsonResult GetBook(int id, String authName, String bookName)
+        public JsonResult GetBook(int id, String authName, String bookName, bool sort)
         {
-            Book book = null;
+            List<Book> books = null;//lista que ira retornar os books
+
+            //pesquisa um book por id
             if (id != null )
             {
-                book = searchById(id);
+                Book book = searchById(id);
                 if (book != null) return new JsonResult(book);
 
-            } if ( authName != null && authName != "")
+            } 
+            
+            //pesquisa books pelo nome do autor
+            if ( authName != null && authName != "")
             {
-                List<Book> books = searchByAuthName(authName);
-                if (books != null && books.Count() > 0 ) return new JsonResult(books);
+                books = searchByAuthName(authName);
+                
+                //caso exista retorna uma lista de livros ordenada ou nao
+                if (books != null && books.Count() > 0 )
+                    return sort ?  new JsonResult(this.sortList(books)) : new JsonResult(books);
 
-            } if (bookName != null && bookName != "")
+            } 
+            
+            //pesquisa books pelo nome do livro
+            if (bookName != null && bookName != "")
             {
-                List<Book> books = searchByBookName(bookName);
-                if (books != null && books.Count() > 0 ) return new JsonResult(books);
+                books = searchByBookName(bookName);
+
+                //caso exista retorna uma lista de livros ordenada ou nao
+                if (books != null && books.Count() > 0)
+                    return sort ? new JsonResult(this.sortList(books)) : new JsonResult(books);
+
             }
 
+            //caso nao encontre nada
             return new JsonResult(
                 "nada econtrado com os parametros id: " + id 
                 + " authName: " + authName 
                 + " bookName: " + bookName);
         }
 
+
         /**
-         *Busca um livro pelo nome do livro.
-         *caso não encontre retorna null
+         *Busca e retorna livros pelo nome do livro.
+         *caso não encontre retorna uma lista vazia
          */
         private List<Book> searchByBookName(string bookName)
         {
@@ -102,10 +144,9 @@ namespace BookAPI.Controllers
             return tempList;
         }
 
-
         /**
-         * Busca um livro pelo nome do autor
-         * caso não encontre retorna null
+         * Busca e retorna uma lista livro pelo nome do autor
+         * caso nao enconte retorna uma lista vazia
          */
         private List<Book> searchByAuthName(string authName)
         {
@@ -119,14 +160,12 @@ namespace BookAPI.Controllers
             return tempList;
         }
 
-
         /**
          * Busca um livro pelo id do livro
          * caso não encontre retorna null
          */
         private Book searchById(int id)
         {
-
             List<Book> books = ReadBooks();
 
             foreach (var list in books)
@@ -138,7 +177,9 @@ namespace BookAPI.Controllers
 
         /**
          * Le todos os books salvos no diretorio Data salvo com o nomme books.JSON.
-         * return - List contendo todos os books
+         * return - List contendo todos os books, caso esteja vazia retorna null
+         * 
+         * throw - uma exception caso ocorra erro ao ler o arquivo
          */
         private List<Book> ReadBooks()
         {
@@ -156,6 +197,16 @@ namespace BookAPI.Controllers
             }
             
             return listBook;
+        }
+
+
+        /**
+         * Calcula o valor do frete baseado no valor do livro acrescentando 20% no valor final
+         * double price - preço do livro
+         */
+        private double calculateShipping(double price)
+        {
+            return price * 1.20;
         }
     }
 }

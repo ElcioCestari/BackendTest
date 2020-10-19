@@ -9,8 +9,6 @@ C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\bin\Debug\netcorea
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\bin\Debug\netcoreapp3.1\BookAPI.pdb
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.AssemblyInfoInputs.cache
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.AssemblyInfo.cs
-C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.csproj.CoreCompileInputs.cache
-C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.RazorTargetAssemblyInfo.cache
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\staticwebassets\BookAPI.StaticWebAssets.Manifest.cache
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\staticwebassets\BookAPI.StaticWebAssets.xml
@@ -19,3 +17,5 @@ C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcorea
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.genruntimeconfig.cache
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\bin\Debug\netcoreapp3.1\Data\books.json
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.csprojAssemblyReference.cache
+C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.csproj.CoreCompileInputs.cache
+C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.MvcApplicationPartsAssemblyInfo.cache

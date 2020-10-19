@@ -12,14 +12,22 @@ namespace BookAPI
 
         public override string ToString()
         {
-            return "Book {\n" +
-                "id: " + this.id.ToString() +
-                "\nname: " + this.name.ToString() +
-                "\nprice: " + this.price.ToString() +
-                "\n" + this.specifications.ToString() +
-                "\n}"
+            return "Book: {" +
+                "id: " + this.id.ToString() + "," +
+                "name: " + this.name.ToString() + "," +
+                "price: " + this.price.ToString() + "," +
+                "" + this.specifications.ToString() +
+                "}"
             ;
-                
+        }
+
+        public string simpleJsonBook()
+        {
+            return "Book: {" +
+                " id: " + this.id.ToString() + "," +
+                "name: " + this.name.ToString() + "," +
+                "price: " + this.price.ToString() +
+                " }";
         }
     }
 }

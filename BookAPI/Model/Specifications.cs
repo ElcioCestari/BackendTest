@@ -15,15 +15,18 @@ namespace BookAPI.Model
         public object Illustrator { get; set; }
         public object Genres { get; set; }
 
+        
+
         public override string ToString()
         {
+            var teste = this.Illustrator.ToString();
             return "Specifications {" +
-                "\nOriginally published: " + this.Originallypublished.ToString() + 
-                "\nAuthor: " + this.Author.ToString() + 
-                "\nPegecount: " + this.Pagecount.ToString() + 
-                "\nIlustrator: " + this.Illustrator.ToString() + 
-                "\nGenres: " + this.Genres.ToString() + 
-                "\n}"
+                "Originally published: " + this.Originallypublished.ToString() + ", " +
+                "Author: " + this.Author.ToString() + ", " +
+                "Pegecount: " + this.Pagecount.ToString() + ", " +
+                "Ilustrator: " + this.Illustrator.ToString() + ", " +
+                "Genres: " + this.Genres.ToString() + 
+                "}"
                 ;
         }
     }
