@@ -12,16 +12,6 @@ namespace BookAPI.Controllers
     [Route("[controller]")]
     public class BookController : ControllerBase
     {
-        /* 
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        */
-
-
-
         private readonly ILogger<BookController> _logger;
 
         public BookController(ILogger<BookController> logger)
@@ -80,13 +70,13 @@ namespace BookAPI.Controllers
 
             } if ( authName != null && authName != "")
             {
-                book = searchByAuthName(authName);
-                if (book != null) return new JsonResult(book);
+                List<Book> books = searchByAuthName(authName);
+                if (books != null && books.Count() > 0 ) return new JsonResult(books);
 
             } if (bookName != null && bookName != "")
             {
-                book = searchByBookName(bookName);
-                if (book != null) return new JsonResult(book);
+                List<Book> books = searchByBookName(bookName);
+                if (books != null && books.Count() > 0 ) return new JsonResult(books);
             }
 
             return new JsonResult(
@@ -99,15 +89,17 @@ namespace BookAPI.Controllers
          *Busca um livro pelo nome do livro.
          *caso não encontre retorna null
          */
-        private Book searchByBookName(string bookName)
+        private List<Book> searchByBookName(string bookName)
         {
             List<Book> books = ReadBooks();
+            List<Book> tempList = new List<Book>();
 
             foreach (var list in books)
             {
-                if (list.name == bookName) return list;
+                if (list.name.ToString() == bookName) tempList.Add(list);
             }
-            return null;
+
+            return tempList;
         }
 
 
@@ -115,15 +107,16 @@ namespace BookAPI.Controllers
          * Busca um livro pelo nome do autor
          * caso não encontre retorna null
          */
-        private Book searchByAuthName(string authName)
+        private List<Book> searchByAuthName(string authName)
         {
             List<Book> books = ReadBooks();
+            List<Book> tempList = new List<Book>();
 
             foreach (var list in books)
             {
-                if (list.specifications.Author == authName) return list;
+                if (list.specifications.Author.ToString() == authName) tempList.Add(list);
             }
-            return null;
+            return tempList;
         }
 
 
