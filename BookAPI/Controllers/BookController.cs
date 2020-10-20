@@ -41,7 +41,7 @@ namespace BookAPI.Controllers
 
         /**
          * localiza um book pelo id e Devolve um json com dados basicos desse book e com o frete calculado.
-         * 
+         * se o não for localizado o livro retorna null
          * int id - o id do book.
          */
         [Route("/book/frete")]
