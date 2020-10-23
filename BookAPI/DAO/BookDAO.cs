@@ -8,24 +8,31 @@ namespace BookAPI.DAO
 {
     public class BookDAO
     {
-        private string txt;
+        private string booksJSON;
+        private const string fileName = "books.JSON";
+        private const string directoryName = @"\Data\";
 
         public BookDAO()
         {
+            this.setBooksJASON();  
+        }
+
+        /// <summary>
+        /// Configura booksJSON com todos os books que estão salvos em um arquivo json.
+        /// </summary>
+        private void setBooksJASON()
+        {
             try
             {
-                txt = System.IO.File
-                    .ReadAllText(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"\Data\books.JSON");
-
+                this.booksJSON = System.IO.File
+                    .ReadAllText(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + directoryName + fileName);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 throw new Exception("Erro ao ler arquivo");
             }
-            
         }
-
 
         /// <summary>
         /// Esse metodo busca todos os livros
@@ -37,7 +44,7 @@ namespace BookAPI.DAO
             List<Book> listBook = null;
             try
             {
-                listBook = JsonSerializer.Deserialize<List<Book>>(this.txt);
+                listBook = JsonSerializer.Deserialize<List<Book>>(this.booksJSON);
             }
             catch (Exception e)
             {
@@ -46,8 +53,6 @@ namespace BookAPI.DAO
 
             return listBook;
         }
-
-
 
         /// <summary         
         /// Busca um livro pelo id do livro  caso não encontre retorna null

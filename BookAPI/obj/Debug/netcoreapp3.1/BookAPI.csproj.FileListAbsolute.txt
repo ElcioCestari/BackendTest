@@ -19,3 +19,4 @@ C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\bin\Debug\netcorea
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.csprojAssemblyReference.cache
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.csproj.CoreCompileInputs.cache
 C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\obj\Debug\netcoreapp3.1\BookAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\elcio\Documents\teste_entrevista\BackendTest\BookAPI\bin\Debug\netcoreapp3.1\appsettings1.json
