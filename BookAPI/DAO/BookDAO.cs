@@ -6,35 +6,96 @@ using System.Threading.Tasks;
 
 namespace BookAPI.DAO
 {
-    public class BookDAO : InterfaceDAO
+    public class BookDAO
     {
-        object InterfaceDAO.select(int id)
-        {
-            throw new NotImplementedException();
-        }
+        private string txt;
 
-        //TODO esse metodo ainda não esta totalmente funcional
-        //desejo implementar uma classe DAO para melhorar a manutenibilidade
-        //entretanto estou com dificuldade nesse momento.
-        //portanto vou implementar as funcionalidades e, caso haja tempo, 
-        //irei focar nessas funcionalidades.
-        List<Object> InterfaceDAO.selectAll()
+        public BookDAO()
         {
-            String txt = System.IO.File
-                .ReadAllText(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"\Data\books.JSON");
-
-            List<Book> listBook = null;
             try
             {
-                Console.WriteLine(txt);
-                listBook = JsonSerializer.Deserialize<List<Book>>(txt);
+                txt = System.IO.File
+                    .ReadAllText(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"\Data\books.JSON");
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                throw new Exception("Erro ao ler arquivo");
+            }
+            
+        }
+
+
+        /// <summary>
+        /// Esse metodo busca todos os livros
+        /// </summary>
+        /// <returns> List - contendo todos os livros</returns>
+        /// <exception cref="Exception">Quando nao consegue converter json para List<Book> </exception>
+        public List<Book> selectAll()
+        {
+            List<Book> listBook = null;
+            try
+            {
+                listBook = JsonSerializer.Deserialize<List<Book>>(this.txt);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("erro ao converter json para books");
             }
 
+            return listBook;
+        }
+
+
+
+        /// <summary         
+        /// Busca um livro pelo id do livro  caso não encontre retorna null
+        /// </summary>
+        /// <param name="id"> int - representa o id do book</param>
+        /// <returns> Book - contendo o book que corresponde ao id </returns>
+        public Book searchById(int id)
+        {
+          
+            List<Book> books = this.selectAll();
+
+            foreach (var list in books)
+            {
+                if (list.id == id) return list;
+            }
             return null;
+        }
+
+        ///<summary>
+        /// Busca e retorna uma lista livro pelo nome do autor 
+        /// caso nao enconte retorna uma lista vazia
+        /// </summary>
+        public List<Book> searchByAuthName(string authName)
+        {
+            List<Book> books = this.selectAll();
+            List<Book> tempList = new List<Book>();
+
+            foreach (var list in books)
+            {
+                if (list.specifications.Author.ToString() == authName) tempList.Add(list);
+            }
+            return tempList;
+        }
+
+        ///<summary>
+        ///Busca e retorna livros pelo nome do livro. caso não encontre retorna uma lista vazia 
+        /// </summary>
+        public List<Book> searchByBookName(string bookName)
+        {
+            List<Book> books = this.selectAll();
+            List<Book> tempList = new List<Book>();
+
+            foreach (var list in books)
+            {
+                if (list.name.ToString() == bookName) tempList.Add(list);
+            }
+
+            return tempList;
         }
     }
 }
