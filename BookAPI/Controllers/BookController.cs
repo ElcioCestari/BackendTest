@@ -43,11 +43,11 @@ namespace BookAPI.Controllers
         /// localiza um book pelo id e Devolve um json com dados basicos desse book e com o frete calculado.
         /// se o não for localizado o livro retorna null 
         /// </summary>
-        public JsonResult Get(int id)
+        public async Task<ActionResult<Book>> Get(int id)
         {
             Book book = new BookDAO().searchById(id);
 
-            if (book == null) return null;
+            if (book == null) return NotFound();
 
             //valor do book acrescido do frete
             double priceWithShipping = book.calculateShipping();
@@ -57,7 +57,7 @@ namespace BookAPI.Controllers
                 "{frete : " + priceWithShipping + " } " +
                 "}";
 
-            return new JsonResult(json);
+            return Ok(json);
         }
 
         /**
@@ -82,7 +82,7 @@ namespace BookAPI.Controllers
         /// <param name="sort"> bool - ordena a busda</param>
         /// <returns> List<Book> contendo todos os books encontrados </returns>
         [HttpGet("{book}")]
-        public JsonResult GetBook(int id, String authName, String bookName, bool sort)
+        public async Task<ActionResult<Book>> GetBook(int id, String authName, String bookName, bool sort)
         {
             List<Book> books = null;//lista que ira retornar os books
 
@@ -90,7 +90,7 @@ namespace BookAPI.Controllers
             if (id != null )
             {
                 Book book = new BookDAO().searchById(id);
-                if (book != null) return new JsonResult(book);
+                if (book != null) return Ok(book);// new JsonResult(book)
             }
 
             //pesquisa books pelo nome do autor
@@ -100,7 +100,7 @@ namespace BookAPI.Controllers
                 
                 //caso exista retorna uma lista de livros ordenada ou nao
                 if (books != null && books.Count() > 0 )
-                    return sort ?  new JsonResult(this.sortList(books)) : new JsonResult(books);
+                    return sort ? new JsonResult(this.sortList(books))  :  new JsonResult(books) ;
 
             } 
             
@@ -116,10 +116,10 @@ namespace BookAPI.Controllers
             }
 
             //caso nao encontre nada
-            return new JsonResult(
+            return NotFound ( new JsonResult(
                 "nada econtrado com os parametros id: " + id 
                 + " authName: " + authName 
-                + " bookName: " + bookName);
+                + " bookName: " + bookName) );
         }
 
         /**
